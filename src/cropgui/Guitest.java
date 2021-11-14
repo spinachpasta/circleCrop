@@ -54,6 +54,7 @@ class Guitest extends JFrame {
 		{
 			String lastName = "";
 			lastName = "";
+			parentIndex.add(0);
 			for (int i = 0; i < imgPaths.size(); i++) {
 				String[] split = imgPaths.get(i).split("/");
 				String parentName = split[split.length - 2];// file can't be placed at root directory
@@ -68,7 +69,11 @@ class Guitest extends JFrame {
 //		System.out.println(parentIndex);
 		int maximumLength = 0;
 //		System.out.println(parentIndex);
-		parentLength.add(parentIndex.get(0));
+		if (parentIndex.size() == 0) {
+			parentLength.add(imgPaths.size());
+		} else {
+			parentLength.add(parentIndex.get(0));
+		}
 		for (int parent = 1; parent < parentIndex.size() - 1; parent++) {
 			int pl = -parentIndex.get(parent - 1) + parentIndex.get(parent);
 			parentLength.add(pl);
@@ -179,7 +184,15 @@ class Guitest extends JFrame {
 		shuffleFiles();
 		index = 0;
 		trySkipImages();
+		if(imgPaths.size()<=index) {
+			System.exit(0);
+		}
 		updateJpanel2();
+		if(index>=imgPaths.size()) {
+			System.out.println(index);
+			System.out.println(imgPaths.size());
+			System.exit(0);
+		}
 		((Panel2) jPanel2).setImage(imgPaths.get(index));
 
 		addWindowListener(new java.awt.event.WindowAdapter() {
@@ -263,6 +276,9 @@ class Guitest extends JFrame {
 			return;
 		index++;
 		clickCount++;
+		if(imgPaths.size()<=index) {
+			System.exit(0);
+		}
 		trySkipImages();
 		((Panel2) jPanel2).setImage(imgPaths.get(index));
 	}
