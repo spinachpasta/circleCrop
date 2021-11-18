@@ -37,7 +37,7 @@ class Guitest extends JFrame {
 				initComponents();
 			}
 		});
-		this.setSize(800, 600);
+		this.setSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 		// add the component to the frame to see it!
 		this.setContentPane(choosePath);
 		// be nice to testers..
@@ -184,11 +184,11 @@ class Guitest extends JFrame {
 		shuffleFiles();
 		index = 0;
 		trySkipImages();
-		if(imgPaths.size()<=index) {
+		if (imgPaths.size() <= index) {
 			System.exit(0);
 		}
 		updateJpanel2();
-		if(index>=imgPaths.size()) {
+		if (index >= imgPaths.size()) {
 			System.out.println(index);
 			System.out.println(imgPaths.size());
 			System.exit(0);
@@ -216,9 +216,9 @@ class Guitest extends JFrame {
 				case 1:// l
 				{
 					Circle circle = new Circle();
-					circle.r = radius;
-					circle.x = e.getX();
-					circle.y = e.getY();
+					circle.r = (int) (radius);
+					circle.x = (int) (e.getX() / ((Panel2) jPanel2).scale);
+					circle.y = (int) (e.getY() / ((Panel2) jPanel2).scale);
 					circles.add(circle);
 					break;
 				}
@@ -276,7 +276,7 @@ class Guitest extends JFrame {
 			return;
 		index++;
 		clickCount++;
-		if(imgPaths.size()<=index) {
+		if (imgPaths.size() <= index) {
 			System.exit(0);
 		}
 		trySkipImages();
@@ -306,8 +306,8 @@ class Guitest extends JFrame {
 	private void jPanel2MouseMoved(MouseEvent evt) {
 		if (index < 0)
 			return;
-		((Panel2) jPanel2).x = evt.getX();
-		((Panel2) jPanel2).y = evt.getY();
+		((Panel2) jPanel2).x =(int)(evt.getX()/ ((Panel2) jPanel2).scale);
+		((Panel2) jPanel2).y =(int)(evt.getY()/ ((Panel2) jPanel2).scale);
 	}
 
 	private void jPanel2MouseWheel(MouseWheelEvent evt) {
@@ -326,8 +326,8 @@ class Guitest extends JFrame {
 		String filename = ";";
 		if (imgPaths.size() > 0 && index > 0) {
 			filename = imgPaths.get(index);
-			((Panel2) jPanel2).label = String.format("filename:%s ,total:%ds average:%ds", filename, timetook,
-					timetook / (clickCount + 1));
+			((Panel2) jPanel2).label = String.format("%d/%d filename:%s ,total:%ds average:%ds", index, imgPaths.size(),
+					filename, timetook, timetook / (clickCount + 1));
 		}
 		jPanel2.revalidate();
 		jPanel2.repaint();
@@ -370,6 +370,7 @@ class Panel2 extends JPanel {
 			img = ImageIO.read(f);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			System.out.println(path);
 			e.printStackTrace();
 		}
 	}
@@ -404,14 +405,14 @@ class Panel2 extends JPanel {
 		for (int i = 0; i < circles.size(); i++) {
 			Circle c = circles.get(i);
 			g2d.setColor(new Color(255, 0, 255));
-			g2d.drawArc((int) ((double) c.x / scale) - c.r, (int) ((double) c.y / scale) - c.r, c.r * 2, c.r * 2, 0,
+			g2d.drawArc((int) ((double) c.x ) - c.r, (int) ((double) c.y ) - c.r, c.r * 2, c.r * 2, 0,
 					360);
 			g2d.setColor(new Color(0, 255, 0));
 			int r1 = Math.max((int) (c.r * 0.9), c.r - 10);
-			g2d.drawArc((int) ((double) c.x / scale) - r1, (int) ((double) c.y / scale) - r1, r1 * 2, r1 * 2, 0, 360);
+			g2d.drawArc((int) ((double) c.x ) - r1, (int) ((double) c.y) - r1, r1 * 2, r1 * 2, 0, 360);
 		}
 		g2d.setColor(new Color(0, 0, 0));
-		g2d.drawArc((int) ((double) x / scale) - radius, (int) ((double) y / scale) - radius, radius * 2, radius * 2, 0,
+		g2d.drawArc((int) ((double) x) - radius, (int) ((double) y) - radius, radius * 2, radius * 2, 0,
 				360);
 //		System.out.println(scale);
 		int fontSize = (int) (20 / (double) scale);
