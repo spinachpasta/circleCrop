@@ -167,7 +167,7 @@ class Guitest extends JFrame {
 					}
 					i++;
 				}
-
+				br.close();
 			}
 		} catch (IOException e1) {
 			// TODO Auto-generated catch block
