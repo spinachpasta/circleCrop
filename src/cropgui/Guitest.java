@@ -56,8 +56,7 @@ class Guitest extends JFrame {
 			lastName = "";
 			parentIndex.add(0);
 			for (int i = 0; i < imgPaths.size(); i++) {
-				String[] split = imgPaths.get(i).split("/");
-				String parentName = split[split.length - 2];// file can't be placed at root directory
+				String parentName = new File(imgPaths.get(i)).getParentFile().getAbsolutePath();// file can't be placed at root directory
 
 //				System.out.println(parentName!=lastName);
 				if (!parentName.equals(lastName)) {
@@ -104,6 +103,8 @@ class Guitest extends JFrame {
 				fetchFiles(file1);
 			}
 		} else {
+			File textparent=textfile.getParentFile();
+			System.out.println("relative:"+textparent.toURI().relativize(new File(dir.getAbsolutePath()).toURI()).getPath());
 			String filename = dir.getAbsolutePath();
 			if (filename.contains(".")) {
 				if (extensions.contains(filename.substring(filename.lastIndexOf(".")))) {
