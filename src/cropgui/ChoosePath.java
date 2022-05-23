@@ -6,7 +6,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
-
+import javax.swing.JCheckBox;
 import javax.swing.JPanel;
 
 import java.util.prefs.Preferences;
@@ -14,9 +14,11 @@ import java.util.prefs.Preferences;
 public class ChoosePath extends JPanel {
 	public static String imageRoot;
 	public static String labelPath;
+	public static boolean isRelative;
 	public static Preferences prefs;
 	public static TextField imageRootTf;
 	public static TextField labelTf;
+	public static JCheckBox isRelativeCheckbox;
 
 	public static void updateTexts() {
 		System.out.println("updateTexts");
@@ -26,6 +28,10 @@ public class ChoosePath extends JPanel {
 		labelPath = labelTf.getText();
 		System.out.println(labelPath);
 		prefs.put("labelPath", labelPath);
+		isRelative=isRelativeCheckbox.isSelected();
+		System.out.println(isRelative);
+		System.out.println(isRelative+"");
+		prefs.put("isRelative", isRelative+"");
 	}
 
 	public ChoosePath(ActionListener al) {
@@ -44,10 +50,16 @@ public class ChoosePath extends JPanel {
 		Label imageRootLabel = new Label("image root directory (absolute path):");
 		Label labelLabel = new Label("output label text file location (absolute path):");
 
+        isRelativeCheckbox = new JCheckBox("use relative path");
+        System.out.println(prefs.get("isRelative","false").equals("true"));
+        isRelativeCheckbox.setSelected(prefs.get("isRelative","false").equals("true"));
+
+
 		p.add(imageRootLabel);
 		p.add(imageRootTf);
 		p.add(labelLabel);
 		p.add(labelTf);
+		p.add(isRelativeCheckbox);
 
 		this.add(p);
 

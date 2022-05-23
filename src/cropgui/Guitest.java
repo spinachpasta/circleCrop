@@ -16,7 +16,7 @@ import java.util.Date;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.*;
-
+import java.nio.file.Path;
 class Guitest extends JFrame {
 	static final int WINDOW_WIDTH = 1000, WINDOW_HEIGHT = 700;
 	int currentX, currentY, oldX, oldY;
@@ -104,8 +104,11 @@ class Guitest extends JFrame {
 			}
 		} else {
 			File textparent=textfile.getParentFile();
-			System.out.println("relative:"+textparent.toURI().relativize(new File(dir.getAbsolutePath()).toURI()).getPath());
 			String filename = dir.getAbsolutePath();
+			if(ChoosePath.isRelative) {
+				filename=textparent.toURI().relativize(new File(dir.getAbsolutePath()).toURI()).getPath();
+				System.out.println("relative:"+textparent.toURI().relativize(new File(dir.getAbsolutePath()).toURI()).getPath());
+			}
 			if (filename.contains(".")) {
 				if (extensions.contains(filename.substring(filename.lastIndexOf(".")))) {
 					AddImage(filename);
@@ -366,8 +369,14 @@ class Panel2 extends JPanel {
 
 	public void setImage(String path) {
 		try {
-			System.out.println(path);
-			File f = new File(path);
+			String path1=path;
+			if (ChoosePath.isRelative) {
+				
+				File textparent=new File(ChoosePath.labelPath).getParentFile();
+				path1=Path.of(textparent.getPath(),path).toAbsolutePath().toString();
+			}
+			System.out.println(path1);
+			File f = new File(path1);
 			img = ImageIO.read(f);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
