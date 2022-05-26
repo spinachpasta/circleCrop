@@ -330,7 +330,7 @@ class Guitest extends JFrame {
 		String filename = ";";
 		if (imgPaths.size() > 0 && index > 0) {
 			filename = imgPaths.get(index);
-			((Panel2) jPanel2).label = String.format("%d/%d filename:%s ,total:%ds average:%ds", index, imgPaths.size(),
+			((Panel2) jPanel2).label = String.format("%d/%d filename:%s ,total:%ds average:%ds", index+skips.size(),skips.size()+ imgPaths.size(),
 					filename, timetook, timetook / (clickCount + 1));
 		}
 		jPanel2.revalidate();
